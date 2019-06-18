@@ -58,18 +58,17 @@ function newCategory(category_name) {
 }
 
 function newItem(obj, key) {
+  var parent_node = obj.parentNode;
+  var category_body = parent_node.nextElementSibling;
   ////////////////////////////////////////////////////////body
   if (!key) {
     var key = category_body.parentNode.className.split(" ")[1].split("_")[1];
     key += "_command_" + Math.floor(Math.random() * 1000);
-    while (localStorage.getItem(str)) {
+    while (localStorage.getItem(key)) {
       key += Math.floor(Math.random() * 1000);
-      //   console.log(str);
     }
   }
 
-  var parent_node = obj.parentNode;
-  var category_body = parent_node.nextElementSibling;
   //   console.log(category_body);
 
   var category_item = document.createElement("div");
@@ -78,14 +77,14 @@ function newItem(obj, key) {
   var category_command = document.createElement("div");
   category_command.setAttribute(
     "class",
-    "category_command " + (key ? " " + key : "")
+    "category_command" + (key ? " " + key : "")
   );
 
   var copy_button = document.createElement("button");
   copy_button.setAttribute("class", "copy_button");
   copy_button.innerHTML = "copy";
 
-  var command_text = document.createElement("command_text");
+  var command_text = document.createElement("span");
 
   var edit = document.createElement("i");
   edit.setAttribute("class", "far fa-edit");
@@ -95,7 +94,7 @@ function newItem(obj, key) {
   trash.setAttribute("onclick", "deleteItem(this)");
 
   //////////////////////////////////
-  var category_comment = document.createElement("category_comment");
+  var category_comment = document.createElement("span");
   category_comment.setAttribute(
     "class",
     "category_comment" + (key ? " " + key.replace("command", "comment") : "")
@@ -131,14 +130,14 @@ function readItem(obj, key) {
   var category_command = document.createElement("div");
   category_command.setAttribute(
     "class",
-    "category_command " + (key ? " " + key : "")
+    "category_command" + (key ? " " + key : "")
   );
 
   var copy_button = document.createElement("button");
   copy_button.setAttribute("class", "copy_button");
   copy_button.innerHTML = "copy";
 
-  var command_text = document.createElement("command_text");
+  var command_text = document.createElement("span");
 
   var edit = document.createElement("i");
   edit.setAttribute("class", "far fa-edit");
@@ -148,7 +147,7 @@ function readItem(obj, key) {
   trash.setAttribute("onclick", "deleteItem(this)");
 
   //////////////////////////////////
-  var category_comment = document.createElement("category_comment");
+  var category_comment = document.createElement("span");
   category_comment.setAttribute(
     "class",
     "category_comment" + (key ? " " + key.replace("command", "comment") : "")
@@ -168,35 +167,46 @@ function readItem(obj, key) {
   category_comment.appendChild(edit);
   category_item.appendChild(category_comment);
 
-  if (!key) {
-    var str = category_body.parentNode.className.split(" ")[1].split("_")[1];
-    str += "_command_" + Math.floor(Math.random() * 1000);
-    while (localStorage.getItem(str)) {
-      str += Math.floor(Math.random() * 1000);
-      //   console.log(str);
-    }
-    localStorage.setItem(str, command_text.innerHTML);
-    str = str.replace("command", "comment");
-    localStorage.setItem(str, comment_text.innerHTML);
-  }
+  //   if (!key) {
+  //     var str = category_body.parentNode.className.split(" ")[1].split("_")[1];
+  //     str += "_command_" + Math.floor(Math.random() * 1000);
+  //     while (localStorage.getItem(str)) {
+  //       str += Math.floor(Math.random() * 1000);
+  //       //   console.log(str);
+  //     }
+  //     localStorage.setItem(str, command_text.innerHTML);
+  //     str = str.replace("command", "comment");
+  //     localStorage.setItem(str, comment_text.innerHTML);
+  //   }
 }
 
 function deleteCategory(obj) {
   var parent_node = obj.parentNode.parentNode.parentNode;
   //   console.log(obj.parentNode.parentNode);
   var key = obj.parentNode.parentNode.className.split(" ")[1];
-  //   console.log(key);
   parent_node.removeChild(obj.parentNode.parentNode);
+  // category를 localStorage에서 삭제
   localStorage.removeItem(key);
+
+  // commands, comments를 localStorage에서 삭제
+  var key_str = key.split("_")[1];
+  var len = localStorage.length;
+  var key_array = [];
+  for (var i = 0; i < len; i++) {
+    if (localStorage.key(i).indexOf(key_str) != -1)
+      key_array.push(localStorage.key(i));
+  }
+  for (var i = 0; i < key_array.length; i++) {
+    localStorage.removeItem(key_array[i]);
+  }
 }
 
 function deleteItem(obj) {
   var parent_node = obj.parentNode.parentNode.parentNode;
-  //   console.log(obj.parentNode.parentNode);
-  var key = obj.parentNode.parentNode.parentNode.className.split(" ")[1];
-  console.log(key);
+  var key = obj.parentNode.className.split(" ")[1];
   parent_node.removeChild(obj.parentNode.parentNode);
   localStorage.removeItem(key);
+  localStorage.removeItem(key.replace("command", "comment"));
 }
 
 function init() {
