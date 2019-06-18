@@ -85,9 +85,13 @@ function newItem(obj, key) {
   copy_button.innerHTML = "copy";
 
   var command_text = document.createElement("span");
+  command_text.setAttribute("class", "command_text");
 
-  var edit = document.createElement("i");
-  edit.setAttribute("class", "far fa-edit");
+  var edit1 = document.createElement("i");
+  edit1.setAttribute("class", "far fa-edit");
+
+  var edit2 = document.createElement("i");
+  edit2.setAttribute("class", "far fa-edit");
 
   var trash = document.createElement("i");
   trash.setAttribute("class", "far fa-trash-alt");
@@ -107,11 +111,11 @@ function newItem(obj, key) {
   category_item.appendChild(category_command);
   category_command.appendChild(copy_button);
   category_command.appendChild(command_text);
-  category_command.appendChild(edit);
+  category_command.appendChild(edit1);
   category_command.appendChild(trash);
 
   category_comment.appendChild(comment_text);
-  category_comment.appendChild(edit);
+  category_comment.appendChild(edit2);
   category_item.appendChild(category_comment);
 
   localStorage.setItem(key, command_text.innerHTML);
@@ -138,9 +142,13 @@ function readItem(obj, key) {
   copy_button.innerHTML = "copy";
 
   var command_text = document.createElement("span");
+  command_text.setAttribute("class", "command_text");
 
-  var edit = document.createElement("i");
-  edit.setAttribute("class", "far fa-edit");
+  var edit1 = document.createElement("i");
+  edit1.setAttribute("class", "far fa-edit");
+
+  var edit2 = document.createElement("i");
+  edit2.setAttribute("class", "far fa-edit");
 
   var trash = document.createElement("i");
   trash.setAttribute("class", "far fa-trash-alt");
@@ -160,24 +168,12 @@ function readItem(obj, key) {
   category_item.appendChild(category_command);
   category_command.appendChild(copy_button);
   category_command.appendChild(command_text);
-  category_command.appendChild(edit);
+  category_command.appendChild(edit1);
   category_command.appendChild(trash);
 
   category_comment.appendChild(comment_text);
-  category_comment.appendChild(edit);
+  category_comment.appendChild(edit2);
   category_item.appendChild(category_comment);
-
-  //   if (!key) {
-  //     var str = category_body.parentNode.className.split(" ")[1].split("_")[1];
-  //     str += "_command_" + Math.floor(Math.random() * 1000);
-  //     while (localStorage.getItem(str)) {
-  //       str += Math.floor(Math.random() * 1000);
-  //       //   console.log(str);
-  //     }
-  //     localStorage.setItem(str, command_text.innerHTML);
-  //     str = str.replace("command", "comment");
-  //     localStorage.setItem(str, comment_text.innerHTML);
-  //   }
 }
 
 function deleteCategory(obj) {
@@ -190,10 +186,17 @@ function deleteCategory(obj) {
 
   // commands, comments를 localStorage에서 삭제
   var key_str = key.split("_")[1];
+  var key_len = key_str.length;
   var len = localStorage.length;
   var key_array = [];
   for (var i = 0; i < len; i++) {
-    if (localStorage.key(i).indexOf(key_str) != -1)
+    console.log(localStorage.key(i).substr(0, key_len + 1));
+    console.log(key_str + "_");
+    console.log(localStorage.key(i).substr(0, key_len + 1) == key_str + "_");
+    if (
+      localStorage.key(i).indexOf(key_str + "_") != -1 &&
+      localStorage.key(i).substr(0, key_len + 1) == key_str + "_"
+    )
       key_array.push(localStorage.key(i));
   }
   for (var i = 0; i < key_array.length; i++) {
