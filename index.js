@@ -12,7 +12,6 @@
 var categories = [];
 
 function newCategory(category_name) {
-  // div class="category"
   if (category_name == null) {
     var new_title = prompt("카테고리의 제목을 입력해주세요");
     // category 이름이 없을 경우
@@ -244,23 +243,6 @@ function deleteItem(obj) {
   parent_node.removeChild(obj.parentNode.parentNode);
   localStorage.removeItem(key);
   localStorage.removeItem(key.replace("command", "comment"));
-}
-
-function setSelectionRange(input, selectionStart, selectionEnd) {
-  if (input.setSelectionRange) {
-    input.focus();
-    input.setSelectionRange(selectionStart, selectionEnd);
-  } else if (input.createTextRange) {
-    var range = input.createTextRange();
-    range.collapse(true);
-    range.moveEnd('character', selectionEnd);
-    range.moveStart('character', selectionStart);
-    range.select();
-  }
-}
-
-function setCaretToPos(input, pos) {
-  setSelectionRange(input, pos, pos);
 }
 
 function editCommand(obj) {
