@@ -132,8 +132,8 @@ function newItem(obj, key) {
   category_body.appendChild(category_item);
   category_item.appendChild(category_command);
   category_command.appendChild(copy_button);
-  category_command.appendChild(command_text);
   category_command.appendChild(trash);
+  category_command.appendChild(command_text);
   category_command.appendChild(edit1);
 
   category_comment.appendChild(comment_text);
@@ -286,6 +286,9 @@ function enterOnEdit(obj, e) {
     e.preventDefault();
     localStorage.setItem(obj.parentNode.className.split(" ")[1], obj.innerHTML);
     obj.contentEditable = 'false';
+  } else {
+    if (obj.innerHTML.length == 19 && (e.keyCode != 8))
+      e.preventDefault();
   }
 }
 
@@ -296,7 +299,7 @@ function saveCommand(obj) {
 }
 
 function copyToClipboard(obj) {
-  var node = obj.nextElementSibling;
+  var node = obj.nextElementSibling.nextElementSibling;
   var str = node.innerHTML;
   var textArea = document.createElement("textarea");
   textArea.value = str;

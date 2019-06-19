@@ -52,8 +52,13 @@ body {
 .command_text,
 .comment_text {
     display: inline-block;
-    width: 200px;
+    width: 290px;
     font-size: 1.7rem;
+}
+
+.comment_text {
+    margin-left: 55px;
+
 }
 
 .fa-bars {
@@ -96,7 +101,7 @@ body {
     font-size: 1rem;
     border-radius: 10px;
     border-color: #EE3B8D;
-    /* margin: auto 0; */
+    margin-right: 5px;
     margin-bottom: 10px;
     height: 30px;
     float: left;
