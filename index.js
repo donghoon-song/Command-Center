@@ -82,16 +82,22 @@ function newItem(obj, key) {
 
   var copy_button = document.createElement("button");
   copy_button.setAttribute("class", "copy_button");
+  copy_button.setAttribute('onclick', "copyToClipboard(this)");
   copy_button.innerHTML = "copy";
 
   var command_text = document.createElement("span");
   command_text.setAttribute("class", "command_text");
+  // 수정가능
+  command_text.setAttribute('contenteditable', 'false');
+  command_text.setAttribute("onkeydown", "enterOnEdit(this, event)");
 
   var edit1 = document.createElement("i");
   edit1.setAttribute("class", "far fa-edit");
+  edit1.setAttribute("onclick", "editCommand(this)");
 
   var edit2 = document.createElement("i");
   edit2.setAttribute("class", "far fa-edit");
+  edit2.setAttribute("onclick", "editCommand(this)");
 
   var trash = document.createElement("i");
   trash.setAttribute("class", "far fa-trash-alt");
@@ -106,6 +112,10 @@ function newItem(obj, key) {
 
   var comment_text = document.createElement("span");
   comment_text.setAttribute("class", "comment_text");
+  comment_text.setAttribute('contenteditable', 'false');
+  comment_text.setAttribute("onkeydown", "enterOnEdit(this, event)");
+
+
 
   category_body.appendChild(category_item);
   category_item.appendChild(category_command);
@@ -139,16 +149,23 @@ function readItem(obj, key) {
 
   var copy_button = document.createElement("button");
   copy_button.setAttribute("class", "copy_button");
+  copy_button.setAttribute('onclick', "copyToClipboard(this)");
   copy_button.innerHTML = "copy";
 
   var command_text = document.createElement("span");
   command_text.setAttribute("class", "command_text");
+  command_text.setAttribute('contenteditable', 'false');
+  command_text.setAttribute("onkeydown", "enterOnEdit(this, event)");
+  command_text.innerHTML = (key ? localStorage.getItem(key) : "");
+
 
   var edit1 = document.createElement("i");
   edit1.setAttribute("class", "far fa-edit");
+  edit1.setAttribute("onclick", "editCommand(this)");
 
   var edit2 = document.createElement("i");
   edit2.setAttribute("class", "far fa-edit");
+  edit2.setAttribute("onclick", "editCommand(this)");
 
   var trash = document.createElement("i");
   trash.setAttribute("class", "far fa-trash-alt");
@@ -163,6 +180,10 @@ function readItem(obj, key) {
 
   var comment_text = document.createElement("span");
   comment_text.setAttribute("class", "comment_text");
+  comment_text.setAttribute('contenteditable', 'false');
+  comment_text.setAttribute("onkeydown", "enterOnEdit(this, event)");
+  comment_text.innerHTML = (key ? localStorage.getItem(key.replace("command", "comment")) : "");
+
 
   category_body.appendChild(category_item);
   category_item.appendChild(category_command);
@@ -212,7 +233,40 @@ function deleteItem(obj) {
   localStorage.removeItem(key.replace("command", "comment"));
 }
 
-function init() {
+function editCommand(obj) {
+  var node = obj.previousElementSibling
+  if (node.isContentEditable) {
+    node.contentEditable = 'false';
+    var str = node.innerHTML;
+    localStorage.setItem(node.parentNode.className.split(" ")[1], str);
+  } else
+    node.contentEditable = 'true';
+}
+
+function enterOnEdit(obj, e) {
+  // Enter키를 누르면 <br>대신 데이터 저장
+  if (e.keyCode == 13) {
+    e.preventDefault();
+    localStorage.setItem(obj.parentNode.className.split(" ")[1], obj.innerHTML);
+    obj.contentEditable = 'false';
+  }
+}
+
+function copyToClipboard(obj) {
+  var node = obj.nextElementSibling;
+  var str = node.innerHTML;
+  var textArea = document.createElement("textarea");
+  textArea.value = str;
+  console.log(textArea);
+  console.log(str);
+  document.body.appendChild(textArea);
+  textArea.select();
+  document.execCommand("copy");
+  textArea.blur();
+  textArea.remove();
+}
+
+function init() { // FIXME: categories를 배열로 만들어서 storage에 저장해놔서 순서지켜주기
   // localStorage에서 categories 읽기
   if (!window.localStorage) {
     alert(
