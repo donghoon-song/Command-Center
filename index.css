@@ -1,9 +1,130 @@
+body {
+    font-family: 'Roboto:100', 'Nanum Gothic', sans-serif;
+    background-color: #5E3A9C;
+    color: white;
+}
+
+#header_container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#title {
+    margin-top: 100px;
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+#new_category {
+    font-family: 'Roboto', 'Nanum Gothic', sans-serif;
+    color: white;
+    font-size: 1.5rem;
+    background-color: black;
+    border-radius: 10px;
+    border-color: black;
+    width: 200px;
+    height: 50px;
+}
+
+#new_category:hover {
+    cursor: pointer;
+}
+
 #category_container {
     display: flex;
+}
+
+.category {
+    margin-right: 50px;
+}
+
+.category_header {
+    background-color: #6B4FB0;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 2rem;
+    padding: 5px;
+    width: 350px;
 }
 
 .command_text,
 .comment_text {
     display: inline-block;
     width: 200px;
+    font-size: 1.7rem;
+}
+
+.fa-bars {
+    margin-left: 10px;
+    margin-right: 7px;
+}
+
+.category_title {
+    margin-left: 10px;
+    width: 190px;
+}
+
+.fa-trash-alt {
+    float: right;
+    margin-left: 5px;
+}
+
+.fa-edit {
+    float: right;
+}
+
+.fa-plus-circle {
+    float: right;
+}
+
+.category_command,
+.category_comment {
+    padding: 5px;
+    width: 350px;
+    height: 30px;
+    border: 1px solid white;
+    border-radius: 10px;
+    font-size: 1.5rem;
+}
+
+.copy_button {
+    font-family: 'Roboto:100', 'Nanum Gothic', sans-serif;
+    background-color: #EE3B8D;
+    color: white;
+    font-size: 1rem;
+    border-radius: 10px;
+    border-color: #EE3B8D;
+    /* margin: auto 0; */
+    margin-bottom: 10px;
+    height: 30px;
+    float: left;
+}
+
+.copy_button:hover {
+    cursor: pointer;
+}
+
+.fas,
+.far {
+    cursor: pointer;
+}
+
+#category_container {
+    margin: 100px 50px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.category_item {
+    font-size: 2rem;
+}
+
+.category_command {
+    background-color: #AF7EEB;
+}
+
+.category_comment {
+    background-color: #454359;
 }
