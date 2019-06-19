@@ -16,7 +16,13 @@ function newCategory(category_name) {
   if (category_name == null) {
     var new_title = prompt("카테고리의 제목을 입력해주세요");
     // category 이름이 없을 경우
-    if (new_title == null) return;
+    if (new_title == null) {
+      return;
+    }
+    if (new_title == "") {
+      alert('category 이름이 없습니다.');
+      return;
+    }
     // category 이름이 이미 존재하는 경우
     if (localStorage.getItem("category_" + new_title)) {
       alert('이미 존재하는 Category 입니다.');
@@ -42,7 +48,6 @@ function newCategory(category_name) {
 
   category_title.innerHTML = category_name ? category_name : new_title;
 
-
   var plus_circle = document.createElement("i");
   plus_circle.setAttribute("class", "fas fa-plus-circle");
   plus_circle.setAttribute("onclick", "newItem(this)");
@@ -59,7 +64,6 @@ function newCategory(category_name) {
   var category_body = document.createElement("div");
   category_body.setAttribute("class", "category_body");
   ////////////////////////////////////////////////////////header
-
   div.appendChild(category_header);
   div.appendChild(category_body);
   var category_container = document.getElementById("category_container");
@@ -125,9 +129,6 @@ function newItem(obj, key) {
   comment_text.setAttribute("onkeydown", "enterOnEdit(this, event)");
   comment_text.setAttribute("onblur", "saveCommand(this)");
 
-
-
-
   category_body.appendChild(category_item);
   category_item.appendChild(category_command);
   category_command.appendChild(copy_button);
@@ -169,7 +170,6 @@ function readItem(obj, key) {
   command_text.setAttribute("onblur", "saveCommand(this)");
   command_text.innerHTML = (key ? localStorage.getItem(key) : "");
 
-
   var edit1 = document.createElement("i");
   edit1.setAttribute("class", "fas fa-edit");
   edit1.setAttribute("onclick", "editCommand(this)");
@@ -195,7 +195,6 @@ function readItem(obj, key) {
   comment_text.setAttribute("onkeydown", "enterOnEdit(this, event)");
   comment_text.setAttribute("onblur", "saveCommand(this)");
   comment_text.innerHTML = (key ? localStorage.getItem(key.replace("command", "comment")) : "");
-
 
   category_body.appendChild(category_item);
   category_item.appendChild(category_command);
@@ -225,9 +224,6 @@ function deleteCategory(obj) {
   var len = localStorage.length;
   var key_array = [];
   for (var i = 0; i < len; i++) {
-    // console.log(localStorage.key(i).substr(0, key_len + 1));
-    // console.log(key_str + "_");
-    // console.log(localStorage.key(i).substr(0, key_len + 1) == key_str + "_");
     if (
       localStorage.key(i).indexOf(key_str + "_") != -1 &&
       localStorage.key(i).substr(0, key_len + 1) == key_str + "_"
