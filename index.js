@@ -327,15 +327,14 @@ function init() { // FIXME: categories를 배열로 만들어서 storage에 저�
     );
     return;
   } else {
-    for (var i = localStorage.length - 1; i > 0; i--) {
-      if (localStorage.key(i).substr(0, 8) == "category") {
-        categories[categories.length] = localStorage.key(i).split("_")[1];
-      }
-    }
+    let categories = localStorage.getItem('categories');
   }
   // categories 생성
   for (var i = 0; i < categories.length; i++) {
     newCategory(categories[i]);
+    let commands = localStorage.getItem(categories[i]);
+    commands.forEach()
+
     var command_prefix = categories[i] + "_command_";
     var comment_prefix = categories[i] + "_comment_";
     var class_name = "category_" + categories[i];
